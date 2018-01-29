@@ -57,6 +57,9 @@ void printHelp() {
 
 void generateRandomPointsAndWriteToFile(int numPoints, int dx, int dy, int dz, string _filename) {
 
+	cout << "genarting random points... " << endl;
+	cout << "file name: " << _filename << endl;
+
 	ofstream myfile;
 	myfile.open(_filename, ios::out);
 	/* initialize random seed: */
@@ -131,13 +134,14 @@ int main(int argc, char* argv[])
 
 			if (argument == "-i") {
 				filePath = argv[i + 1];
-				openFileAndReadPoints(filePath, &datapoints, &datapointNames);
 				i++;
 			}
 
 			else if (argument == "-g") {
 				string temp = argv[i + 1];
-				cout << temp << endl;
+				//string filePath = argv[i + 2];
+				//filePath = filePath.substr(1, filename.size() - 1);
+				filePath = "pccp03.txt";
 				//TODO split string by , and convert to n;dx,dy,dz
 				std::istringstream iss(temp);
 				std::vector<std::string> results((std::istream_iterator<WordDelimitedByCommas>(iss)),
@@ -147,8 +151,7 @@ int main(int argc, char* argv[])
 				int _dx = std::stoi(results[1]);
 				int _dy = std::stoi(results[2]);
 				int _dz = std::stoi(results[3]);
-				string filename = "pccp_03.txt";
-				generateRandomPointsAndWriteToFile(_n,_dx,_dy,_dz, filename);
+				generateRandomPointsAndWriteToFile(_n,_dx,_dy,_dz, filePath);
 				i++;
 		
 			}
@@ -190,6 +193,8 @@ int main(int argc, char* argv[])
 	//	av[idx] += 1;
 	//});
 
+	openFileAndReadPoints(filePath, &datapoints, &datapointNames);
+
 	for (int i = 0; i < datapoints.size(); i++) {
 		for (int k = i + 1; k < datapoints.size(); k++) {
 			float d[] = { abs(datapoints.at(i).x - datapoints.at(k).x), abs(datapoints.at(i).y - datapoints.at(k).y), abs(datapoints.at(i).z - datapoints.at(k).z) };
@@ -218,7 +223,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	cout << "Mindist zwischen: " << endl;
+	cout << endl << "Mindist zwischen: " << endl;
 	for (string temp: name_mindist){
 		cout << temp << endl;
 		}
